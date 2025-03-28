@@ -1,0 +1,2 @@
+# HealthIQ
+AI Symptoms Checker
