@@ -1,0 +1,70 @@
+# Android Studio specific
+.idea/
+*.iml
+.gradle/
+local.properties
+
+# Flutter/Dart
+**/.dart_tool/
+**/.pub/
+**/build/
+
+# FastAPI (Python-related)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+.env
+*.log
+*.bak
+*.swp
+
+# Virtualenv and Python environment
+venv/
+env/
+*.egg-info/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Linux
+*~
+
+# Gradle (for Android and Flutter)
+.gradle/
+build/
+**/build/
+
+# IntelliJ
+*.iml
+.idea/
+
+# JetBrains IDEs
+*.log
+
+# VS Code
+.vscode/
+
+# Miscellaneous files to ignore
+*.bak
+*.swp
+*.swo
+
+# Flutter lock file (can be ignored if using flutter_version management)
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Firebase/Crashlytics
+crashlytics.properties
+fabric.properties
+
+# Secrets
+*.jks
+*.keystore
+*.env
