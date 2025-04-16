@@ -26,10 +26,17 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+<<<<<<< Updated upstream
   <component name="GitHubPullRequestSearchHistory"><![CDATA[{
   "lastFilter": {
     "state": "OPEN",
     "assignee": "Muchirik"
+=======
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Muchirik/HealthIQ",
+    "accountId": "bf847ec6-8b9e-4ece-aa45-2847eb705cc8"
+>>>>>>> Stashed changes
   }
 }]]></component>
   <component name="ProjectColorInfo">{
