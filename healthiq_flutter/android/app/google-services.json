@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "336335118739",
+    "project_id": "healthiq-22f01",
+    "storage_bucket": "healthiq-22f01.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336335118739:android:0fc8084dd049a164854866",
+        "android_client_info": {
+          "package_name": "com.example.healthiq"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC65SU7Ydesk8weVhf5dzA0lI9F1BnlVA8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
