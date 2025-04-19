@@ -49,7 +49,7 @@ HealthIQ is an AI-powered mobile application that allows users to check symptoms
 4. **Setup FastAPI Backend:**
    Navigate to 
    ```bash  
-      /backend
+    cd /backend
    #Create and Activate Virtual environment
    #Install dependencies:
    pip install -r requirements.txt
@@ -71,7 +71,7 @@ This Project is licenced under the **MIT LICENCE**
 ## 📬 Contact
 
 Got feedback, ideas, or questions?  
-Reach out on [LinkedIn](https://www.linkedin.com/kenneth-muchiri-muongi) or [open an issue](https://github.com/Muchirik/healthiq/issues) on this repository.
+Reach out on [LinkedIn](https://www.linkedin.com/in/kenneth-muchiri-muongi/) or [open an issue](https://github.com/Muchirik/HealthIQ/issues) on this repository.
 
 
 
