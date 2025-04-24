@@ -11,8 +11,8 @@ class AppRoutes {
   static Map<String, WidgetBuilder> get routes => {
     '/signin': (context) => const SignInPage(),
     '/signup': (context) => const SignUpPage(),
-    // '/home': (context) => const HomePage(),
-    // '/chatbot': (context) => const ChatBotPage(),
+    '/home': (context) => HomePage(),
+    '/chatbot': (context) => const ChatbotPage(),
     // '/result': (context) => const ResultPage(),
     // '/medication': (context) => const MedicationPage(),
   };

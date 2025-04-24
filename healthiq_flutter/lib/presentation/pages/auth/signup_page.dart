@@ -25,6 +25,7 @@ class _SignUpPageState extends State<SignUpPage> {
       setState(() => _isLoading = true);
       Future.delayed(const Duration(seconds: 2), () {
         setState(() => _isLoading = false);
+        Navigator.pushReplacementNamed(context, '/home');
         //Navigate or show success message here
       });
     }
@@ -48,6 +49,7 @@ class _SignUpPageState extends State<SignUpPage> {
       print("Google user signed in: ${userCredential.user?.email}");
 
       //Navigate or show success message here
+      Navigator.pushReplacementNamed(context, '/home');
     } catch (e) {
       print("Google Sign-In error: $e");
     }
