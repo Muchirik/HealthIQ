@@ -3,8 +3,10 @@ import '../presentation/pages/auth/signin_page.dart';
 import '../presentation/pages/auth/signup_page.dart';
 import '../presentation/pages/home_page.dart';
 import '../presentation/pages/chatbot_page.dart';
-import '../presentation/pages/result_page.dart';
+import '../presentation/pages/landing_page.dart';
+import '../presentation/pages/history_page.dart';
 import '../presentation/pages/medication_page.dart';
+import '../presentation/pages/notification_page.dart';
 
 
 class AppRoutes {
@@ -13,7 +15,9 @@ class AppRoutes {
     '/signup': (context) => const SignUpPage(),
     '/home': (context) => HomePage(),
     '/chatbot': (context) => const ChatbotPage(),
-    // '/result': (context) => const ResultPage(),
-    // '/medication': (context) => const MedicationPage(),
+    '/landing': (context) => const LandingPage(),
+    '/history': (context) =>  HistoryPage(),
+    '/medication': (context) => const MedicationPage(),
+    '/notifications': (context) => NotificationsPage(),
   };
 }

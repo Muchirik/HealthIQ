@@ -12,7 +12,20 @@
           "package_name": "com.example.healthiq"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "336335118739-2b497a6p4scv3tacfs5e6kosobmv7uud.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.healthiq",
+            "certificate_hash": "a62311af53608d96491d2b5d2dfc5ee05a2238ea"
+          }
+        },
+        {
+          "client_id": "336335118739-lmq3i67vsrbbte4h7uirb2dpt0gii6gm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyC65SU7Ydesk8weVhf5dzA0lI9F1BnlVA8"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "336335118739-lmq3i67vsrbbte4h7uirb2dpt0gii6gm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

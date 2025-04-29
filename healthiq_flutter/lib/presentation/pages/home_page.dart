@@ -22,11 +22,11 @@ class HomePage extends StatelessWidget {
     "Avoid alot of junk food",
   ];
 
-  // final username = FirebaseAuth.instance.currentUser;
-  final username = 'Ken';
   @override
   Widget build(BuildContext context) {
     final String dailyTip = tips[Random().nextInt(tips.length)];
+    final user = FirebaseAuth.instance.currentUser;
+    final username = user?.displayName ?? user?.email ?? "Friend";
 
     return Scaffold(
       appBar: AppBar(
@@ -41,7 +41,7 @@ class HomePage extends StatelessWidget {
            IconButton(
              icon: const Icon(Icons.notifications_none, color: Colors.white54,),
              onPressed: () {
-               Navigator.pushNamed(context, '/home');
+               Navigator.pushNamed(context, '/notifications');
              },
            ),
          ],
@@ -116,7 +116,7 @@ class HomePage extends StatelessWidget {
                         'Describe your symptoms to get a preliminary diagnosis.',
                         style: TextStyle(
                           fontSize: 16,
-                          color: Colors.white60,
+                          color: Colors.white,
                         ),
                       ),
                       SizedBox(height: 20),
@@ -129,7 +129,7 @@ class HomePage extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
                           foregroundColor: Colors.teal,
-                          padding: EdgeInsets.symmetric(horizontal: 0, vertical: 14),
+                          padding: EdgeInsets.symmetric(horizontal: 40, vertical: 14),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),)
                         ),
                     ],
@@ -161,11 +161,30 @@ class HomePage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildActionButton(Icons.history, "History"),
-                _buildActionButton(Icons.local_hospital, "AI Diagnosis"),
-                _buildActionButton(Icons.medication, "Medication"),
+                _buildActionButton(
+                  Icons.local_hospital,
+                  "AI Diagnosis",
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/chatbot');
+                  },
+                ),
+                _buildActionButton(
+                  Icons.medication,
+                  "Medication",
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/medication');
+                  },
+                ),
+                _buildActionButton(
+                  Icons.history,
+                  "History",
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/history');
+                  },
+                ),
               ],
             ),
+
             const SizedBox(height: 40,),
             ElevatedButton.icon(
               onPressed: () {
@@ -186,18 +205,22 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButton(IconData icon, String label) {
+  Widget _buildActionButton(IconData icon, String label, {required VoidCallback onPressed}) {
     return Column(
       children: [
-        CircleAvatar(
-          backgroundColor: Colors.teal.shade100,
-          radius: 28,
-          child: Icon(icon, size: 30, color: Colors.teal.shade900),
+        InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(30),
+          child: CircleAvatar(
+            backgroundColor: Colors.teal.shade100,
+            radius: 28,
+            child: Icon(icon, size: 30, color: Colors.teal.shade900),
+          ),
         ),
         const SizedBox(height: 6),
         Text(
           label,
-          style: const TextStyle(fontSize: 14)
+          style: const TextStyle(fontSize: 14),
         ),
       ],
     );

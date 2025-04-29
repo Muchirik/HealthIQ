@@ -18,7 +18,7 @@ class HealthIQApp extends StatelessWidget {
       title: 'HealthIQ',
       //theme: AppTheme.light,
       debugShowCheckedModeBanner: false,
-      initialRoute: '/home',
+      initialRoute: '/landing',
       routes: AppRoutes.routes,
     );
   }
