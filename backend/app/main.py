@@ -6,9 +6,18 @@ from .schemas import SymptomInput, PredictionResponse
 from .model import predict_diseases
 
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
-
+app.add_middleware(
+    # cross origin requeest sharing
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 # class SymptomInput(BaseModel):
 #     symptoms: str
 #
