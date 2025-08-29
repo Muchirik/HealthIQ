@@ -26,7 +26,7 @@ class _SuccessPageState extends State<SuccessPage> with SingleTickerProviderStat
       end: Colors.teal.shade700,
     ).animate(_controller);
 
-    Future.delayed(const Duration(seconds: 4), () {
+    Future.delayed(const Duration(seconds: 5), () {
       Navigator.pushReplacementNamed(context, '/home');
     });
   }

@@ -1,11 +1,14 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'core/theme/app_theme.dart';
 import 'routes/app_routes.dart';
+import 'firebase_options.dart';
+// import 'dart.io' show Platform;
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const HealthIQApp());
 }
 
@@ -18,6 +21,7 @@ class HealthIQApp extends StatelessWidget {
       title: 'HealthIQ',
       //theme: AppTheme.light,
       debugShowCheckedModeBanner: false,
+      // don't return to landing is user is already logged in
       initialRoute: '/landing',
       routes: AppRoutes.routes,
     );

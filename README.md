@@ -2,7 +2,7 @@
 
 HealthIQ is an AI-powered mobile application that allows users to check symptoms, receive possible condition predictions, and get medication recommendations using natural language input or voice.
 
-> ⚠️ **Note**: This is an Android app. To run it, please use an Android emulator or a physical Android device.
+<!-- > ⚠️ **Note**: This is an Android app. To run it, please use an Android emulator or a physical Android device. -->
 
 ---
 
@@ -55,7 +55,7 @@ HealthIQ is an AI-powered mobile application that allows users to check symptoms
    pip install -r requirements.txt
 5. **Run FastAPI Server:**
    ```bash
-   uvicorn main:app --reload
+   uvicorn app.main:app --reload
 
 ## 🔮 Coming Soon
 .ios Support

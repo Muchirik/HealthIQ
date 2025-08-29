@@ -1,3 +1,4 @@
+// Dart imports
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -14,8 +15,18 @@ class _ChatbotPageState extends State<ChatbotPage> {
   final List<_Message> _messages = [];
   bool _awaitingFullResults = false;
   Map<String, dynamic>? _latestPrediction;
-  //for examiner if using android emulator virtual device use http://10.0.2.2:8000/predict but if using physical device use http://<your-computer-ip>:8000/predict
-  final Uri backendUrl = Uri.parse('http://192.168.100.11:8000/predict'); // your backend URL
+  int _conversationStep = 0; // Tracks which follow-up question to ask next
+
+  final Uri backendUrl = Uri.parse('http://192.168.100.11:8000/predict');
+
+  @override
+  void initState() {
+    super.initState();
+    // Show welcome message when chatbot opens
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _addBotMessage("Hi! I'm HealthIQ you personal AI health assistant 🤖. How are you feeling today?");
+    });
+  }
 
   void _sendMessage() async {
     final text = _controller.text.trim();
@@ -27,14 +38,33 @@ class _ChatbotPageState extends State<ChatbotPage> {
 
     _controller.clear();
 
-    // Handle greetings and small talk first
+    if (_awaitingFullResults) {
+      _handleBotResponse(text);
+      return;
+    }
+
     if (_handleBasicConversation(text.toLowerCase())) return;
 
-    // Otherwise assume it's a symptoms description
-    _addBotMessage("Analyzing your symptoms...");
+    // Step-by-step guided conversation
+    if (_conversationStep == 0) {
+      _addBotMessage("Got it. How long have you been experiencing this?");
+      _conversationStep = 1;
+      return;
+    } else if (_conversationStep == 1) {
+      _addBotMessage("Thanks. On a scale of mild, moderate, or severe — how bad are the symptoms?");
+      _conversationStep = 2;
+      return;
+    } else if (_conversationStep == 2) {
+      _addBotMessage("Okay. Any known medical conditions or history I should know about?");
+      _conversationStep = 3;
+      return;
+    } else if (_conversationStep == 3) {
+      _addBotMessage("Thanks for the info. Give me a moment while I analyze your symptoms...");
+      _conversationStep = 4;
+    }
 
     try {
-      final symptoms = _extractSymptoms(text);
+      final symptoms = _extractSymptoms(_messages.map((m) => m.text).join(" "));
 
       if (symptoms.isEmpty) {
         _addBotMessage("Sorry, I couldn't detect clear symptoms. Could you describe it differently?");
@@ -57,16 +87,14 @@ class _ChatbotPageState extends State<ChatbotPage> {
         _latestPrediction = data;
 
         _addBotMessage(
-          "Based on your symptoms, you might have *${data['disease']}*.\n\n"
-              "Would you like to see full details?",
-          isAskingForResults: true,
+          "Based on your symptoms, you might have *${data['disease']}*.",
         );
+        _addBotMessage("Would you like to see full details? (Yes/No)", isAskingForResults: true);
         _awaitingFullResults = true;
       } else {
         _addBotMessage("Sorry, something went wrong. Please try again.");
       }
     } catch (e) {
-      print(e);
       _addBotMessage("An error occurred. Please check your connection.");
     }
   }
@@ -93,11 +121,10 @@ class _ChatbotPageState extends State<ChatbotPage> {
 
   List<String> _extractSymptoms(String text) {
     final knownSymptoms = [
-      "fever", "cough", "headache", "vomiting", "flu", "fatigue", "diarrhea", "dizziness", "rash",
-      "sore throat", "runny nose", "chills", "nausea", "muscle pain"
+      "fever", "cough", "headache", "vomiting", "flu", "fatigue", "diarrhea",
+      "dizziness", "rash", "sore throat", "runny nose", "chills", "nausea", "muscle pain"
     ];
     List<String> found = [];
-
     for (var symptom in knownSymptoms) {
       if (text.toLowerCase().contains(symptom)) {
         found.add(symptom);
@@ -118,6 +145,7 @@ class _ChatbotPageState extends State<ChatbotPage> {
       _addBotMessage("Alright! Let me know if you need anything else.");
     }
     _awaitingFullResults = false;
+    _conversationStep = 0;
   }
 
   @override
@@ -150,10 +178,7 @@ class _ChatbotPageState extends State<ChatbotPage> {
                             child: CircleAvatar(
                               radius: 18,
                               backgroundColor: Colors.teal.shade200,
-                              child: AnimatedSwitcher(
-                                duration: const Duration(milliseconds: 500),
-                                child: const Icon(Icons.android, key: ValueKey('bot'), color: Colors.white),
-                              ),
+                              child: const Icon(Icons.smart_toy, color: Colors.white),
                             ),
                           ),
                         Flexible(
@@ -189,9 +214,7 @@ class _ChatbotPageState extends State<ChatbotPage> {
                     child: TextField(
                       controller: _controller,
                       decoration: InputDecoration(
-                        hintText: _awaitingFullResults
-                            ? "Type 'Yes' or 'No'"
-                            : "Describe your symptoms...",
+                        hintText: _awaitingFullResults ? "Type 'Yes' or 'No'" : "Describe your symptoms...",
                         filled: true,
                         fillColor: Colors.grey[100],
                         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -200,7 +223,7 @@ class _ChatbotPageState extends State<ChatbotPage> {
                           borderSide: BorderSide.none,
                         ),
                       ),
-                      onSubmitted: (_) => _awaitingFullResults ? _handleBotResponse(_controller.text.trim()) : _sendMessage(),
+                      onSubmitted: (_) => _sendMessage(),
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -208,9 +231,7 @@ class _ChatbotPageState extends State<ChatbotPage> {
                     backgroundColor: Colors.teal,
                     child: IconButton(
                       icon: const Icon(Icons.send, color: Colors.white),
-                      onPressed: _awaitingFullResults
-                          ? () => _handleBotResponse(_controller.text.trim())
-                          : _sendMessage,
+                      onPressed: _sendMessage,
                     ),
                   ),
                 ],

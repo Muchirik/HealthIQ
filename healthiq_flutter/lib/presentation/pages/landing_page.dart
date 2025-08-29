@@ -18,6 +18,8 @@ class LandingPage extends StatelessWidget {
               // HealthIQ Logo and Name
               Row(
                 children: [
+                  //use hospital logo
+
                   CircleAvatar(
                     radius: 24,
                     backgroundColor: Colors.grey[300],

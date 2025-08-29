@@ -68,3 +68,6 @@ fabric.properties
 *.jks
 *.keystore
 *.env
+
+#firebese options
+lib/firebase_options.dart
