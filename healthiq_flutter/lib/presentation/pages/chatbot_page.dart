@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatbotPage extends StatefulWidget {
   const ChatbotPage({super.key});
@@ -183,6 +184,22 @@ class _ChatbotPageState extends State<ChatbotPage> {
     }
     _awaitingFullResults = false;
     _conversationStep = 0;
+  }
+
+
+  Future<void> _saveConversation() async {
+    final prefs = await SharedPreferences.getInstance();
+    final history = prefs.getStringList('chat_history') ?? [];
+    // save as JSON string
+    final conversation = jsonEncode(_messages.map((m) => {
+      'text': m.text,
+      'isUser': m.isUser,
+    }).toList());
+    history.add(conversation);
+    await prefs.setStringList('chat_history', history);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Conversation saved to history')),
+    );
   }
 
   @override
