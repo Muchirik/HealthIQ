@@ -11,9 +11,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:healthiq/main.dart';
 
 void main() {
+  const String initialRoute = '/'; // Define initialRoute for the test
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(HealthIQApp());
+    await tester.pumpWidget(HealthIQApp(initialRoute: initialRoute,));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
