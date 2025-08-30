@@ -5,7 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatbotPage extends StatefulWidget {
-  const ChatbotPage({super.key});
+  final List<Map<String, dynamic>>? initialMessages;
+  const ChatbotPage({super.key, this.initialMessages});
 
   @override
   State<ChatbotPage> createState() => _ChatbotPageState();
@@ -29,12 +30,20 @@ class _ChatbotPageState extends State<ChatbotPage> {
   @override
   void initState() {
     super.initState();
-    // Show welcome message when chatbot opens
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _addBotMessage(
-        "Hi! I'm HealthIQ you personal AI health assistant 🤖. How are you feeling today?",
+    if (widget.initialMessages != null) {
+      _messages.addAll(
+        widget.initialMessages!.map(
+          (m) => _Message(m['text'], isUser: m['isUser']),
+        ),
       );
-    });
+    } else {
+      // Show welcome message when chatbot opens
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _addBotMessage(
+          "Hi! I'm HealthIQ you personal AI health assistant 🤖. How are you feeling today?",
+        );
+      });
+    }
   }
 
   void _sendMessage() async {
@@ -171,8 +180,24 @@ class _ChatbotPageState extends State<ChatbotPage> {
     return found;
   }
 
-  void _handleBotResponse(String userChoice) {
+
+  Future<void> _saveConversation() async {
+    final prefs = await SharedPreferences.getInstance();
+    final history = prefs.getStringList('chat_history') ?? [];
+    // save as JSON string
+    final conversation = jsonEncode(
+      _messages.map((m) => {'text': m.text, 'isUser': m.isUser}).toList(),
+    );
+    history.add(conversation);
+    await prefs.setStringList('chat_history', history);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Conversation saved to history')),
+    );
+  }
+
+  void _handleBotResponse(String userChoice) async {
     if (userChoice.toLowerCase() == "yes" && _latestPrediction != null) {
+      await _saveConversation();
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -184,22 +209,6 @@ class _ChatbotPageState extends State<ChatbotPage> {
     }
     _awaitingFullResults = false;
     _conversationStep = 0;
-  }
-
-
-  Future<void> _saveConversation() async {
-    final prefs = await SharedPreferences.getInstance();
-    final history = prefs.getStringList('chat_history') ?? [];
-    // save as JSON string
-    final conversation = jsonEncode(_messages.map((m) => {
-      'text': m.text,
-      'isUser': m.isUser,
-    }).toList());
-    history.add(conversation);
-    await prefs.setStringList('chat_history', history);
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Conversation saved to history')),
-    );
   }
 
   @override
